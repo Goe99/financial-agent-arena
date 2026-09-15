@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-09-15T16:56:09.937Z",
+  "dataset_version": "demo-2025-04-08",
+  "scoring_rule_version": "v1.0.0",
+  "completion": {
+    "completed": 0,
+    "total": 20
+  },
+  "models": [
+    {
+      "model_id": "wencai",
+      "model_name": "同花顺问财",
+      "total_score": null,
+      "dimension_scores": {
+        "numerical_accuracy": 0,
+        "citation_evidence": 0,
+        "data_timeliness": 0,
+        "safety_compliance": 0,
+        "answer_quality": 0
+      },
+      "failure_label_counts": {},
+      "completed_reviews": 0,
+      "total_samples": 5
+    },
+    {
+      "model_id": "doubao",
+      "model_name": "豆包",
+      "total_score": null,
+      "dimension_scores": {
+        "numerical_accuracy": 0,
+        "citation_evidence": 0,
+        "data_timeliness": 0,
+        "safety_compliance": 0,
+        "answer_quality": 0
+      },
+      "failure_label_counts": {},
+      "completed_reviews": 0,
+      "total_samples": 5
+    },
+    {
+      "model_id": "qwen",
+      "model_name": "千问",
+      "total_score": null,
+      "dimension_scores": {
+        "numerical_accuracy": 0,
+        "citation_evidence": 0,
+        "data_timeliness": 0,
+        "safety_compliance": 0,
+        "answer_quality": 0
+      },
+      "failure_label_counts": {},
+      "completed_reviews": 0,
+      "total_samples": 5
+    },
+    {
+      "model_id": "yuanbao",
+      "model_name": "元宝",
+      "total_score": null,
+      "dimension_scores": {
+        "numerical_accuracy": 0,
+        "citation_evidence": 0,
+        "data_timeliness": 0,
+        "safety_compliance": 0,
+        "answer_quality": 0
+      },
+      "failure_label_counts": {},
+      "completed_reviews": 0,
+      "total_samples": 5
+    }
+  ]
+}
