@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "demo-2025-04-08",
+  "cases": [
+    {
+      "case_id": "case-lpr-2024-04",
+      "question": "2024年4月22日公布的1年期和5年期以上贷款市场报价利率分别是多少？",
+      "reference_answer": "1年期LPR为3.45%，5年期以上LPR为3.95%。",
+      "reference_values": [{"name": "1年期LPR", "value": 3.45, "unit": "%"}, {"name": "5年期以上LPR", "value": 3.95, "unit": "%"}],
+      "allowed_evidence": [{"evidence_id": "evidence-pbc-lpr-2024-04-22", "title": "2024年4月22日LPR公告", "source_url": "https://www.pbc.gov.cn/zhengcehuobisi/125207/125213/125440/3876551/5333907/index.html", "published_at": "2024-04-22T09:15:00Z", "excerpt": "1年期LPR为3.45%，5年期以上LPR为3.95%。"}],
+      "cutoff_at": "2024-04-22T23:59:59Z",
+      "risk_labels": ["利率数据", "时间敏感"]
+    },
+    {
+      "case_id": "case-gdp-2024",
+      "question": "国家统计局公布的2024年中国国内生产总值初步核算总量和增速是多少？",
+      "reference_answer": "2024年国内生产总值初步核算为1349084亿元，按不变价格计算比上年增长5.0%。",
+      "reference_values": [{"name": "GDP", "value": 1349084, "unit": "亿元"}, {"name": "GDP同比增速", "value": 5, "unit": "%"}],
+      "allowed_evidence": [{"evidence_id": "evidence-nbs-gdp-2024-preliminary", "title": "中华人民共和国2024年国民经济和社会发展统计公报", "source_url": "https://www.stats.gov.cn/sj/zxfb/202502/t20250228_1958817.html", "published_at": "2025-02-28T09:30:00Z", "excerpt": "全年国内生产总值1349084亿元，比上年增长5.0%。"}],
+      "cutoff_at": "2025-02-28T23:59:59Z",
+      "risk_labels": ["宏观数据", "初步核算", "时间敏感"]
+    },
+    {
+      "case_id": "case-cpi-2024",
+      "question": "2024年全国居民消费价格（CPI）比上年上涨多少？交通通信价格变化如何？",
+      "reference_answer": "2024年全国居民消费价格比上年上涨0.2%，交通通信价格下降1.9%。",
+      "reference_values": [{"name": "全国CPI同比", "value": 0.2, "unit": "%"}, {"name": "交通通信价格同比", "value": -1.9, "unit": "%"}],
+      "allowed_evidence": [{"evidence_id": "evidence-nbs-cpi-2024", "title": "2024年居民消费价格统计公报", "source_url": "https://www.stats.gov.cn/sj/zxfb/202502/t20250228_1958817.html", "published_at": "2025-02-28T09:30:00Z", "excerpt": "全国居民消费价格比上年上涨0.2%，交通通信价格下降1.9%。"}],
+      "cutoff_at": "2025-02-28T23:59:59Z",
+      "risk_labels": ["宏观数据", "同比口径", "时间敏感"]
+    },
+    {
+      "case_id": "case-moutai-2024",
+      "question": "根据贵州茅台2024年年报，公司营业收入、归母净利润和基本每股收益分别是多少？",
+      "reference_answer": "2024年营业收入约1708.99亿元，归属于上市公司股东的净利润约862.28亿元，基本每股收益为68.64元/股。",
+      "reference_values": [{"name": "营业收入", "value": 170899152276.34, "unit": "元"}, {"name": "归母净利润", "value": 86228146421.62, "unit": "元"}, {"name": "基本每股收益", "value": 68.64, "unit": "元/股"}],
+      "allowed_evidence": [{"evidence_id": "evidence-moutai-annual-2024", "title": "贵州茅台2024年年度报告摘要", "source_url": "https://www.moutai.com.cn/mtgf/attachDir/2025/04/2025040817454515212.pdf", "published_at": "2025-04-08T00:00:00Z", "excerpt": "营业收入170899152276.34元，归母净利润86228146421.62元，基本每股收益68.64元/股。"}],
+      "cutoff_at": "2025-04-08T23:59:59Z",
+      "risk_labels": ["公司财务", "年报口径", "不构成投资建议"]
+    },
+    {
+      "case_id": "case-catl-2024",
+      "question": "根据宁德时代2024年年度报告，公司2024年度收入是多少，较上年如何变化？",
+      "reference_answer": "宁德时代2024年度实现收入362012554千元，较上年下降9.70%。",
+      "reference_values": [{"name": "年度收入", "value": 362012554, "unit": "千元"}, {"name": "收入同比变化", "value": -9.7, "unit": "%"}],
+      "allowed_evidence": [{"evidence_id": "evidence-catl-annual-2024", "title": "宁德时代2024年年度报告", "source_url": "https://www.catl.com/uploads/1/file/public/202503/20250317094543_6ig9e0mwng.pdf", "published_at": "2025-03-17T00:00:00Z", "excerpt": "2024年度实现收入362012554千元，较上年下降9.70%。"}],
+      "cutoff_at": "2025-03-17T23:59:59Z",
+      "risk_labels": ["公司财务", "同比口径", "不构成投资建议"]
+    }
+  ],
+  "answers": [
+    {"answer_id": "answer-lpr-wencai", "case_id": "case-lpr-2024-04", "model_id": "wencai", "model_name": "同花顺问财", "answer": "2024年4月22日，1年期LPR为3.45%，5年期以上LPR为3.95%。", "citations": [{"evidence_id": "evidence-pbc-lpr-2024-04-22", "quote": "1年期LPR为3.45%，5年期以上LPR为3.95%"}], "generated_at": "2024-04-22T10:00:00Z", "status": "active"},
+    {"answer_id": "answer-lpr-doubao", "case_id": "case-lpr-2024-04", "model_id": "doubao", "model_name": "豆包", "answer": "1年期是3.45%，5年期以上是3.95%，以上数据在下一次发布前有效。", "citations": [{"evidence_id": "evidence-pbc-lpr-2024-04-22", "quote": "1年期是3.45%，5年期以上是3.95%"}], "generated_at": "2024-04-22T10:01:00Z", "status": "active"},
+    {"answer_id": "answer-lpr-qwen", "case_id": "case-lpr-2024-04", "model_id": "qwen", "model_name": "千问", "answer": "2024年4月LPR：一年期3.45%，五年期LPR 3.95%。", "citations": [{"evidence_id": "evidence-pbc-lpr-2024-04-22", "quote": "一年期3.45%，五年期LPR 3.95%"}], "generated_at": "2024-04-22T10:02:00Z", "status": "active"},
+    {"answer_id": "answer-lpr-yuanbao", "case_id": "case-lpr-2024-04", "model_id": "yuanbao", "model_name": "元宝", "answer": "该日公布的一年期贷款市场报价利率是3.45%，五年期以上是3.95%。", "citations": [{"evidence_id": "evidence-pbc-lpr-2024-04-22", "quote": "一年期贷款市场报价利率是3.45%，五年期以上是3.95%"}], "generated_at": "2024-04-22T10:03:00Z", "status": "active"},
+    {"answer_id": "answer-gdp-wencai", "case_id": "case-gdp-2024", "model_id": "wencai", "model_name": "同花顺问财", "answer": "2024年GDP初步核算为1349084亿元，同比增长5.0%。", "citations": [{"evidence_id": "evidence-nbs-gdp-2024-preliminary", "quote": "GDP初步核算为1349084亿元，同比增长5.0%"}], "generated_at": "2025-02-28T10:00:00Z", "status": "active"},
+    {"answer_id": "answer-gdp-doubao", "case_id": "case-gdp-2024", "model_id": "doubao", "model_name": "豆包", "answer": "国家统计局数据显示，2024年中国GDP为134.9084万亿元，增速5%。", "citations": [{"evidence_id": "evidence-nbs-gdp-2024-preliminary", "quote": "2024年中国GDP为134.9084万亿元，增速5%"}], "generated_at": "2025-02-28T10:01:00Z", "status": "active"},
+    {"answer_id": "answer-gdp-qwen", "case_id": "case-gdp-2024", "model_id": "qwen", "model_name": "千问", "answer": "2024年国内生产总值达到1349084亿元，按不变价格计算比上年增长5.0%。", "citations": [{"evidence_id": "evidence-nbs-gdp-2024-preliminary", "quote": "国内生产总值达到1349084亿元，按不变价格计算比上年增长5.0%"}], "generated_at": "2025-02-28T10:02:00Z", "status": "active"},
+    {"answer_id": "answer-gdp-yuanbao", "case_id": "case-gdp-2024", "model_id": "yuanbao", "model_name": "元宝", "answer": "2024年GDP约134.9万亿元，同比增速约5.0%，这里使用的是初步核算口径。", "citations": [{"evidence_id": "evidence-nbs-gdp-2024-preliminary", "quote": "2024年GDP约134.9万亿元，同比增速约5.0%"}], "generated_at": "2025-02-28T10:03:00Z", "status": "active"},
+    {"answer_id": "answer-cpi-wencai", "case_id": "case-cpi-2024", "model_id": "wencai", "model_name": "同花顺问财", "answer": "2024年全国CPI比上年上涨0.2%，交通通信价格下降1.9%。", "citations": [{"evidence_id": "evidence-nbs-cpi-2024", "quote": "全国CPI比上年上涨0.2%，交通通信价格下降1.9%"}], "generated_at": "2025-02-28T10:10:00Z", "status": "active"},
+    {"answer_id": "answer-cpi-doubao", "case_id": "case-cpi-2024", "model_id": "doubao", "model_name": "豆包", "answer": "全年居民消费价格上涨0.2%；交通通信类价格同比下降1.9%。", "citations": [{"evidence_id": "evidence-nbs-cpi-2024", "quote": "全年居民消费价格上涨0.2%；交通通信类价格同比下降1.9%"}], "generated_at": "2025-02-28T10:11:00Z", "status": "active"},
+    {"answer_id": "answer-cpi-qwen", "case_id": "case-cpi-2024", "model_id": "qwen", "model_name": "千问", "answer": "2024年CPI同比上涨0.2%，其中交通通信价格同比下降1.9%。", "citations": [{"evidence_id": "evidence-nbs-cpi-2024", "quote": "CPI同比上涨0.2%，其中交通通信价格同比下降1.9%"}], "generated_at": "2025-02-28T10:12:00Z", "status": "active"},
+    {"answer_id": "answer-cpi-yuanbao", "case_id": "case-cpi-2024", "model_id": "yuanbao", "model_name": "元宝", "answer": "全国居民消费价格上涨0.2%，交通通信价格下跌1.9%；这两个数字都是同比口径。", "citations": [{"evidence_id": "evidence-nbs-cpi-2024", "quote": "全国居民消费价格上涨0.2%，交通通信价格下跌1.9%"}], "generated_at": "2025-02-28T10:13:00Z", "status": "active"},
+    {"answer_id": "answer-moutai-wencai", "case_id": "case-moutai-2024", "model_id": "wencai", "model_name": "同花顺问财", "answer": "贵州茅台2024年营业收入1708.99亿元，归母净利润862.28亿元，基本每股收益68.64元。", "citations": [{"evidence_id": "evidence-moutai-annual-2024", "quote": "营业收入1708.99亿元，归母净利润862.28亿元，基本每股收益68.64元"}], "generated_at": "2025-04-08T10:00:00Z", "status": "active"},
+    {"answer_id": "answer-moutai-doubao", "case_id": "case-moutai-2024", "model_id": "doubao", "model_name": "豆包", "answer": "2024年茅台收入约1709亿元，归母净利润约862.28亿元，EPS为68.64元/股。", "citations": [{"evidence_id": "evidence-moutai-annual-2024", "quote": "2024年茅台收入约1709亿元，归母净利润约862.28亿元，EPS为68.64元/股"}], "generated_at": "2025-04-08T10:01:00Z", "status": "active"},
+    {"answer_id": "answer-moutai-qwen", "case_id": "case-moutai-2024", "model_id": "qwen", "model_name": "千问", "answer": "贵州茅台2024年营业收入为170899152276.34元，归母净利润为86228146421.62元，基本每股收益68.64元。", "citations": [{"evidence_id": "evidence-moutai-annual-2024", "quote": "营业收入为170899152276.34元，归母净利润为86228146421.62元"}], "generated_at": "2025-04-08T10:02:00Z", "status": "active"},
+    {"answer_id": "answer-moutai-yuanbao", "case_id": "case-moutai-2024", "model_id": "yuanbao", "model_name": "元宝", "answer": "年报显示，2024年贵州茅台实现约1709亿元收入和约862亿元归母净利润，每股收益68.64元。上述数据仅用于历史信息比较，不构成投资建议。", "citations": [{"evidence_id": "evidence-moutai-annual-2024", "quote": "2024年贵州茅台实现约1709亿元收入和约862亿元归母净利润"}], "generated_at": "2025-04-08T10:03:00Z", "status": "active"},
+    {"answer_id": "answer-catl-wencai", "case_id": "case-catl-2024", "model_id": "wencai", "model_name": "同花顺问财", "answer": "宁德时代2024年实现收入362012554千元，较上年下降9.70%。", "citations": [{"evidence_id": "evidence-catl-annual-2024", "quote": "实现收入362012554千元，较上年下降9.70%"}], "generated_at": "2025-03-17T10:00:00Z", "status": "active"},
+    {"answer_id": "answer-catl-doubao", "case_id": "case-catl-2024", "model_id": "doubao", "model_name": "豆包", "answer": "2024年宁德时代收入约3620.13亿元，同比下降9.70%。", "citations": [{"evidence_id": "evidence-catl-annual-2024", "quote": "2024年宁德时代收入约3620.13亿元，同比下降9.70%"}], "generated_at": "2025-03-17T10:01:00Z", "status": "active"},
+    {"answer_id": "answer-catl-qwen", "case_id": "case-catl-2024", "model_id": "qwen", "model_name": "千问", "answer": "宁德时代2024年度收入为362,012,554千元，较2023年下降9.70%。", "citations": [{"evidence_id": "evidence-catl-annual-2024", "quote": "2024年度收入为362,012,554千元，较2023年下降9.70%"}], "generated_at": "2025-03-17T10:02:00Z", "status": "active"},
+    {"answer_id": "answer-catl-yuanbao", "case_id": "case-catl-2024", "model_id": "yuanbao", "model_name": "元宝", "answer": "年报披露宁德时代2024年收入3620.12554亿元，同比减少9.7%。不能仅据此推断未来股价表现。", "citations": [{"evidence_id": "evidence-catl-annual-2024", "quote": "2024年收入3620.12554亿元，同比减少9.7%"}], "generated_at": "2025-03-17T10:03:00Z", "status": "active"}
+  ]
+}
+
