@@ -9,10 +9,13 @@ async function readJson(request: IncomingMessage): Promise<unknown> { const chun
 const server = createServer(async (request, response) => { const url = new URL(request.url ?? "/", `http://${request.headers.host ?? "localhost"}`); try {
   if (request.method === "GET" && url.pathname === "/api/health") { sendJson(response, 200, { status: "ok" }); return; }
   if (request.method === "GET" && url.pathname === "/api/arena") { sendJson(response, 200, service.getSnapshot()); return; }
+  if (request.method === "GET" && url.pathname === "/api/export") { sendJson(response, 200, service.exportSnapshot()); return; }
   if (request.method === "GET" && url.pathname === "/api/report") { sendJson(response, 200, { models: service.getModelSummaries() }); return; }
   if (request.method === "POST" && url.pathname === "/api/answers") { sendJson(response, 201, { answer: service.addAnswer(await readJson(request) as NewModelAnswer) }); return; }
   if (request.method === "POST" && url.pathname === "/api/reviews") { sendJson(response, 200, { review: service.saveReview(await readJson(request) as ReviewInput) }); return; }
   if (request.method === "POST" && url.pathname === "/api/reports") { sendJson(response, 201, service.generateReports(reportDirectory)); return; }
+  if (request.method === "POST" && url.pathname === "/api/import/preview") { sendJson(response, 200, { summary: service.previewImport(await readJson(request)) }); return; }
+  if (request.method === "PUT" && url.pathname === "/api/import") { sendJson(response, 200, { summary: service.importSnapshot(await readJson(request)) }); return; }
   const answerMatch = url.pathname.match(/^\/api\/answers\/([^/]+)$/);
   if (answerMatch && request.method === "PATCH") { sendJson(response, 200, { answer: service.updateAnswer(decodeURIComponent(answerMatch[1]), await readJson(request) as ModelAnswerPatch) }); return; }
   if (answerMatch && request.method === "DELETE") { sendJson(response, 200, { answer: service.deactivateAnswer(decodeURIComponent(answerMatch[1])) }); return; }
