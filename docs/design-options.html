@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>金融 Agent 评测竞技场 · 视觉方案</title>
+  <style>
+    :root { color-scheme: light; font-family: "Aptos", "Segoe UI", sans-serif; background: #edf2f5; color: #122230; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    button, select { font: inherit; }
+    .gallery-shell { max-width: 1480px; min-height: 100dvh; margin: 0 auto; padding: 28px; }
+    .gallery-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+    .gallery-head h1 { max-width: 720px; margin: 5px 0 0; font-size: clamp(28px, 4vw, 52px); letter-spacing: -.045em; line-height: 1; }
+    .gallery-head p { max-width: 620px; margin: 0; color: #657681; line-height: 1.6; }
+    .kicker { margin: 0; color: #187f78; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .tabs { display: flex; gap: 6px; padding: 5px; border: 1px solid #d5dfe3; background: #f8fbfc; border-radius: 12px; }
+    .tab { border: 0; border-radius: 8px; padding: 11px 16px; color: #60717a; background: transparent; cursor: pointer; font-weight: 700; }
+    .tab:hover, .tab:focus-visible { color: #102b3d; background: #e7f0f1; outline: 0; }
+    .tab[aria-selected="true"] { color: #fff; background: #11364c; }
+    .scheme { display: none; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--canvas); box-shadow: 0 20px 60px rgba(21, 46, 59, .12); }
+    .scheme.active { display: block; animation: reveal .28s ease-out; }
+    @keyframes reveal { from { opacity: .3; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .scheme.active { animation: none; } }
+    .scheme-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--panel); }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 850; letter-spacing: -.02em; }
+    .brand-mark { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 8px; color: var(--canvas); background: var(--accent); font-size: 13px; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .soft-button, .solid-button { border: 1px solid var(--line); border-radius: 8px; padding: 9px 13px; cursor: pointer; font-weight: 750; }
+    .soft-button { color: var(--ink); background: var(--canvas); }
+    .solid-button { border-color: var(--accent); color: var(--canvas); background: var(--accent); }
+    .soft-button:active, .solid-button:active { transform: translateY(1px); }
+    .workspace { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 680px; }
+    .queue { border-right: 1px solid var(--line); background: var(--panel); }
+    .queue-head, .detail-head { padding: 20px; }
+    .queue-head { border-bottom: 1px solid var(--line); }
+    .queue-head h2, .detail-head h2 { margin: 0; font-size: 20px; letter-spacing: -.025em; }
+    .queue-head p, .detail-head p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .queue-filters { display: grid; gap: 8px; margin-top: 16px; }
+    .queue-filters select { width: 100%; border: 1px solid var(--line); border-radius: 7px; padding: 9px; color: var(--ink); background: var(--canvas); }
+    .case-list { display: grid; gap: 2px; padding: 10px; }
+    .case { display: grid; gap: 5px; border: 0; border-left: 3px solid transparent; border-radius: 6px; padding: 12px 10px; text-align: left; color: var(--ink); background: transparent; cursor: pointer; }
+    .case:hover, .case.selected { border-left-color: var(--accent); background: var(--wash); }
+    .case strong { font-size: 12px; letter-spacing: .02em; }
+    .case span { overflow: hidden; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .case-status { color: var(--accent); font-size: 11px; font-weight: 800; }
+    .detail { min-width: 0; }
+    .detail-head { display: flex; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); }
+    .cutoff { align-self: start; white-space: nowrap; color: var(--muted); font: 12px "Cascadia Mono", monospace; }
+    .reference { margin: 18px 20px; border-left: 4px solid var(--accent); padding: 15px 17px; background: var(--wash); }
+    .reference h3, .answers-title { margin: 0 0 7px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+    .reference p { margin: 0; color: var(--ink); line-height: 1.6; }
+    .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .fact { border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; color: var(--ink); background: var(--canvas); font-size: 12px; }
+    .review-area { padding: 0 20px 24px; }
+    .answers-title { display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+    .answer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .answer { border: 1px solid var(--line); border-radius: 10px; padding: 15px; background: var(--panel); }
+    .answer-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .answer-head strong { color: var(--ink); }
+    .answer-head span { color: var(--muted); font: 11px "Cascadia Mono", monospace; }
+    .answer p { min-height: 60px; margin: 0; color: var(--ink); line-height: 1.6; }
+    .citation { margin-top: 13px; color: var(--accent); font-size: 12px; }
+    .score-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 15px; }
+    .score { padding: 7px 4px; border-top: 2px solid var(--accent); text-align: center; background: var(--wash); }
+    .score b { display: block; color: var(--ink); font-size: 16px; }
+    .score small { color: var(--muted); font-size: 10px; }
+    .answer-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 13px; }
+    .status { color: var(--accent); font-size: 12px; font-weight: 800; }
+    .review-link { border: 0; padding: 0; color: var(--accent); background: transparent; cursor: pointer; font-weight: 800; }
+    .footer-note { padding: 14px 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .scheme[data-scheme="audit"] { --canvas: #f8fbfc; --panel: #ffffff; --wash: #eaf4f3; --ink: #122b3b; --muted: #6b7d86; --line: #d7e2e5; --accent: #147d76; }
+    .scheme[data-scheme="terminal"] { --canvas: #0d1823; --panel: #122332; --wash: #172f3d; --ink: #e9f0ee; --muted: #8ea4ad; --line: #29404c; --accent: #d7a64a; }
+    .scheme[data-scheme="terminal"] .scheme-bar { background: #101f2e; }
+    .scheme[data-scheme="terminal"] .brand-mark { color: #0d1823; }
+    .scheme[data-scheme="terminal"] .solid-button { color: #0d1823; }
+    .scheme[data-scheme="research"] { --canvas: #f5f7f8; --panel: #ffffff; --wash: #edf1f5; --ink: #1c2a3a; --muted: #6c7886; --line: #d4dce4; --accent: #3464a5; }
+    .scheme[data-scheme="research"] .reference { border-left-width: 1px; border-top: 3px solid var(--accent); }
+    @media (max-width: 880px) { .gallery-shell { padding: 18px; } .gallery-head { display: grid; } .workspace { grid-template-columns: 1fr; } .queue { border-right: 0; border-bottom: 1px solid var(--line); } .case-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .gallery-head h1 { font-size: 34px; } .tabs { overflow-x: auto; } .tab { white-space: nowrap; } .scheme-bar, .detail-head { align-items: start; flex-direction: column; } .top-actions { width: 100%; } .top-actions button { flex: 1; } .answer-grid { grid-template-columns: 1fr; } .score-row { gap: 3px; } .score small { font-size: 9px; } }
+  </style>
+</head>
+<body>
+  <main class="gallery-shell">
+    <header class="gallery-head">
+      <div><p class="kicker">金融 Agent 评测竞技场 · 视觉提案</p><h1>把评审工作台做得像一份可信的研究工具。</h1></div>
+      <p>三个方向保留现有评测信息架构：题目队列、单题四模型对比、评分状态和证据核对。请选择最接近产品气质的方案。</p>
+    </header>
+    <div class="tabs" role="tablist" aria-label="视觉方案">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="audit" data-target="audit">方案 A · 审计白</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="terminal" data-target="terminal">方案 B · 市场终端</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="research" data-target="research">方案 C · 研究台</button>
+    </div>
+
+    <section class="scheme active" id="audit" data-scheme="audit" role="tabpanel">
+      <div class="scheme-bar"><div class="brand"><span class="brand-mark">FA</span><span>Financial Agent Arena</span></div><div class="top-actions"><button class="soft-button">导入 JSON</button><button class="solid-button">导出报告</button></div></div>
+      <div class="workspace"><aside class="queue"><div class="queue-head"><h2>评测队列</h2><p>5 道题 · 20 个回答 · 0 条已完成</p><div class="queue-filters"><select><option>全部模型</option><option>同花顺问财</option><option>豆包</option></select><select><option>全部状态</option><option>未评审</option><option>评审中</option><option>已完成</option></select></div></div><div class="case-list"><button class="case selected"><strong>CASE LPR 2024 04</strong><span>4 月贷款市场报价利率是多少？</span><i class="case-status">未评审</i></button><button class="case"><strong>CASE GDP 2024</strong><span>2024 年国内生产总值如何？</span><i class="case-status">未评审</i></button><button class="case"><strong>CASE CPI 2024</strong><span>2024 年居民消费价格变化</span><i class="case-status">未评审</i></button><button class="case"><strong>CASE MOUTAI 2024</strong><span>贵州茅台年度经营数据核对</span><i class="case-status">未评审</i></button><button class="case"><strong>CASE CATL 2024</strong><span>宁德时代年度营收变化</span><i class="case-status">未评审</i></button></div></aside><article class="detail"><div class="detail-head"><div><h2>4 月贷款市场报价利率是多少？</h2><p>统一截止时间：2024-04-22 · 风险边界：时效性、数字准确性</p></div><span class="cutoff">CASE LPR 2024 04</span></div><div class="reference"><h3>参考结论与允许证据</h3><p>2024 年 4 月 1 年期 LPR 为 3.45%，5 年期以上 LPR 为 3.95%。</p><div class="facts"><span class="fact">1 年期 · 3.45%</span><span class="fact">5 年期以上 · 3.95%</span><span class="fact">PBC 2024-04-22</span></div></div><div class="review-area"><div class="answers-title"><span>四模型回答对比</span><span>每项 0 至 10 分</span></div><div class="answer-grid"><article class="answer"><div class="answer-head"><strong>同花顺问财</strong><span>09:12:04 UTC</span></div><p>4 月 1 年期 LPR 为 3.45%，5 年期以上为 3.95%。</p><div class="citation">证据 · evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>10</b><small>数字</small></span><span class="score"><b>10</b><small>引用</small></span><span class="score"><b>10</b><small>时效</small></span><span class="score"><b>10</b><small>合规</small></span><span class="score"><b>10</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始评审</button></div></article><article class="answer"><div class="answer-head"><strong>豆包</strong><span>09:12:19 UTC</span></div><p>1 年期为 3.45%，5 年期 LPR 为 3.95%，数据来自央行公告。</p><div class="citation">证据 · evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>8</b><small>数字</small></span><span class="score"><b>7</b><small>引用</small></span><span class="score"><b>9</b><small>时效</small></span><span class="score"><b>9</b><small>合规</small></span><span class="score"><b>8</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始评审</button></div></article><article class="answer"><div class="answer-head"><strong>千问</strong><span>09:12:31 UTC</span></div><p>本月 LPR 保持稳定，1 年期 3.45%，5 年期以上 3.95%。</p><div class="citation">证据 · evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>9</b><small>数字</small></span><span class="score"><b>9</b><small>引用</small></span><span class="score"><b>8</b><small>时效</small></span><span class="score"><b>10</b><small>合规</small></span><span class="score"><b>8</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始评审</button></div></article><article class="answer"><div class="answer-head"><strong>元宝</strong><span>09:12:44 UTC</span></div><p>4 月 LPR 分别为 3.45% 和 3.95%，未给出进一步投资判断。</p><div class="citation">证据 · evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>9</b><small>数字</small></span><span class="score"><b>8</b><small>引用</small></span><span class="score"><b>9</b><small>时效</small></span><span class="score"><b>10</b><small>合规</small></span><span class="score"><b>9</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始评审</button></div></article></div></div></article></div><div class="footer-note">数据版本 demo-2025-04-08 · 当前页仅展示内置模拟数据 · 人工最终分数为唯一排名依据</div>
+    </section>
+
+    <section class="scheme" id="terminal" data-scheme="terminal" role="tabpanel">
+      <div class="scheme-bar"><div class="brand"><span class="brand-mark">FA</span><span>FA / REVIEW TERMINAL</span></div><div class="top-actions"><button class="soft-button">IMPORT</button><button class="solid-button">EXPORT REPORT</button></div></div>
+      <div class="workspace"><aside class="queue"><div class="queue-head"><h2>REVIEW QUEUE</h2><p>5 CASES / 20 ANSWERS / 0 COMPLETE</p><div class="queue-filters"><select><option>MODEL: ALL</option><option>MODEL: WENCAI</option><option>MODEL: DOUBAO</option></select><select><option>STATUS: ALL</option><option>STATUS: TODO</option><option>STATUS: DONE</option></select></div></div><div class="case-list"><button class="case selected"><strong>CASE 001 / LPR</strong><span>LOAN PRIME RATE / APR 2024</span><i class="case-status">TODO</i></button><button class="case"><strong>CASE 002 / GDP</strong><span>GDP / YEAR 2024</span><i class="case-status">TODO</i></button><button class="case"><strong>CASE 003 / CPI</strong><span>CPI / YEAR 2024</span><i class="case-status">TODO</i></button><button class="case"><strong>CASE 004 / MOUTAI</strong><span>ANNUAL REPORT / 2024</span><i class="case-status">TODO</i></button><button class="case"><strong>CASE 005 / CATL</strong><span>ANNUAL REPORT / 2024</span><i class="case-status">TODO</i></button></div></aside><article class="detail"><div class="detail-head"><div><h2>APR 2024 / LOAN PRIME RATE</h2><p>CUTOFF 2024-04-22 / CHECK NUMBERS, EVIDENCE, TIMELINESS</p></div><span class="cutoff">CASE 001</span></div><div class="reference"><h3>REFERENCE DATA</h3><p>1Y LPR 3.45% / 5Y+ LPR 3.95%</p><div class="facts"><span class="fact">SOURCE PBC</span><span class="fact">PUBLISHED 2024-04-22</span><span class="fact">CUTOFF VALID</span></div></div><div class="review-area"><div class="answers-title"><span>MODEL OUTPUTS / SIDE BY SIDE</span><span>5 AXES / 0 TO 10</span></div><div class="answer-grid"><article class="answer"><div class="answer-head"><strong>WENCAI</strong><span>09:12:04Z</span></div><p>1Y LPR 3.45%. 5Y+ LPR 3.95%.</p><div class="citation">EVIDENCE-PBC-LPR / QUOTE ATTACHED</div><div class="score-row"><span class="score"><b>10</b><small>NUM</small></span><span class="score"><b>10</b><small>EVID</small></span><span class="score"><b>10</b><small>TIME</small></span><span class="score"><b>10</b><small>SAFE</small></span><span class="score"><b>10</b><small>QUAL</small></span></div><div class="answer-foot"><span class="status">TODO</span><button class="review-link">OPEN REVIEW</button></div></article><article class="answer"><div class="answer-head"><strong>DOUBAO</strong><span>09:12:19Z</span></div><p>1Y 3.45%. 5Y LPR 3.95%. PBC announcement.</p><div class="citation">EVIDENCE-PBC-LPR / CHECK TERM</div><div class="score-row"><span class="score"><b>8</b><small>NUM</small></span><span class="score"><b>7</b><small>EVID</small></span><span class="score"><b>9</b><small>TIME</small></span><span class="score"><b>9</b><small>SAFE</small></span><span class="score"><b>8</b><small>QUAL</small></span></div><div class="answer-foot"><span class="status">TODO</span><button class="review-link">OPEN REVIEW</button></div></article><article class="answer"><div class="answer-head"><strong>QWEN</strong><span>09:12:31Z</span></div><p>LPR unchanged. 1Y 3.45%. 5Y+ 3.95%.</p><div class="citation">EVIDENCE-PBC-LPR / CHECK CUTOFF</div><div class="score-row"><span class="score"><b>9</b><small>NUM</small></span><span class="score"><b>9</b><small>EVID</small></span><span class="score"><b>8</b><small>TIME</small></span><span class="score"><b>10</b><small>SAFE</small></span><span class="score"><b>8</b><small>QUAL</small></span></div><div class="answer-foot"><span class="status">TODO</span><button class="review-link">OPEN REVIEW</button></div></article><article class="answer"><div class="answer-head"><strong>YUANBAO</strong><span>09:12:44Z</span></div><p>3.45% / 3.95%. No investment conclusion.</p><div class="citation">EVIDENCE-PBC-LPR / SAFE</div><div class="score-row"><span class="score"><b>9</b><small>NUM</small></span><span class="score"><b>8</b><small>EVID</small></span><span class="score"><b>9</b><small>TIME</small></span><span class="score"><b>10</b><small>SAFE</small></span><span class="score"><b>9</b><small>QUAL</small></span></div><div class="answer-foot"><span class="status">TODO</span><button class="review-link">OPEN REVIEW</button></div></article></div></div></article></div><div class="footer-note">DATASET DEMO-2025-04-08 / RULESET V1.0.0 / HUMAN FINAL SCORES ONLY</div>
+    </section>
+
+    <section class="scheme" id="research" data-scheme="research" role="tabpanel">
+      <div class="scheme-bar"><div class="brand"><span class="brand-mark">FA</span><span>金融 Agent 评测研究台</span></div><div class="top-actions"><button class="soft-button">导入数据</button><button class="solid-button">生成报告</button></div></div>
+      <div class="workspace"><aside class="queue"><div class="queue-head"><h2>研究样本</h2><p>按样本状态逐条核对模型答案</p><div class="queue-filters"><select><option>全部模型</option><option>同花顺问财</option><option>豆包</option></select><select><option>全部评审状态</option><option>未评审</option><option>评审中</option><option>已完成</option></select></div></div><div class="case-list"><button class="case selected"><strong>01 · LPR 2024 04</strong><span>利率数据核对</span><i class="case-status">待开始</i></button><button class="case"><strong>02 · GDP 2024</strong><span>宏观总量核对</span><i class="case-status">待开始</i></button><button class="case"><strong>03 · CPI 2024</strong><span>价格变化核对</span><i class="case-status">待开始</i></button><button class="case"><strong>04 · MOUTAI 2024</strong><span>年报数字核对</span><i class="case-status">待开始</i></button><button class="case"><strong>05 · CATL 2024</strong><span>年报趋势核对</span><i class="case-status">待开始</i></button></div></aside><article class="detail"><div class="detail-head"><div><h2>4 月贷款市场报价利率</h2><p>先看参考结论，再核对回答中的数字、来源和风险表达。</p></div><span class="cutoff">数据截止<br>2024-04-22</span></div><div class="reference"><h3>研究基准</h3><p>1 年期 3.45%，5 年期以上 3.95%。证据来自中国人民银行 2024 年 4 月公告。</p><div class="facts"><span class="fact">数字：2 项</span><span class="fact">证据：1 条</span><span class="fact">风险：时效性</span></div></div><div class="review-area"><div class="answers-title"><span>回答样本</span><span>点击开始逐项评审</span></div><div class="answer-grid"><article class="answer"><div class="answer-head"><strong>同花顺问财</strong><span>生成于 09:12 UTC</span></div><p>4 月 1 年期 LPR 为 3.45%，5 年期以上为 3.95%。</p><div class="citation">允许证据：evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>10</b><small>数字</small></span><span class="score"><b>10</b><small>证据</small></span><span class="score"><b>10</b><small>时效</small></span><span class="score"><b>10</b><small>合规</small></span><span class="score"><b>10</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始核对</button></div></article><article class="answer"><div class="answer-head"><strong>豆包</strong><span>生成于 09:12 UTC</span></div><p>1 年期为 3.45%，5 年期 LPR 为 3.95%，数据来自央行公告。</p><div class="citation">允许证据：evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>8</b><small>数字</small></span><span class="score"><b>7</b><small>证据</small></span><span class="score"><b>9</b><small>时效</small></span><span class="score"><b>9</b><small>合规</small></span><span class="score"><b>8</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始核对</button></div></article><article class="answer"><div class="answer-head"><strong>千问</strong><span>生成于 09:12 UTC</span></div><p>本月 LPR 保持稳定，1 年期 3.45%，5 年期以上 3.95%。</p><div class="citation">允许证据：evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>9</b><small>数字</small></span><span class="score"><b>9</b><small>证据</small></span><span class="score"><b>8</b><small>时效</small></span><span class="score"><b>10</b><small>合规</small></span><span class="score"><b>8</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始核对</button></div></article><article class="answer"><div class="answer-head"><strong>元宝</strong><span>生成于 09:12 UTC</span></div><p>4 月 LPR 分别为 3.45% 和 3.95%，未给出进一步投资判断。</p><div class="citation">允许证据：evidence-pbc-lpr</div><div class="score-row"><span class="score"><b>9</b><small>数字</small></span><span class="score"><b>8</b><small>证据</small></span><span class="score"><b>9</b><small>时效</small></span><span class="score"><b>10</b><small>合规</small></span><span class="score"><b>9</b><small>质量</small></span></div><div class="answer-foot"><span class="status">未评审</span><button class="review-link">开始核对</button></div></article></div></div></article></div><div class="footer-note">数据版本 demo-2025-04-08 · 评分规则 v1.0.0 · 仅人工最终分进入排名</div>
+    </section>
+  </main>
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const schemes = document.querySelectorAll('.scheme');
+    tabs.forEach((tab) => tab.addEventListener('click', () => {
+      const target = tab.dataset.target;
+      tabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+      schemes.forEach((scheme) => scheme.classList.toggle('active', scheme.id === target));
+    }));
+  </script>
+</body>
+</html>
